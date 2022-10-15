@@ -372,68 +372,97 @@ def difficultyMenu():
     # difficulty menu
     pygame.init() # initializing the constructor   
     res = (720,720) # screen resolution 
+
     screen = pygame.display.set_mode(res) # opens up a window 
     pygame.display.set_caption('Difficulty Menu')
-    screen.fill((0,0,0)) # black screen
+    clock = pygame.time.Clock()
+
     color_light = (170,170,170) # light shade of the button 
     color_dark = (100,100,100) # dark shade of the button
     txtColor = (18, 196, 255) # color of text
+    btnColor = (255,255,255) # color of buttons
     quitColor = (255, 0, 0) #color of quit
     title2 = pygame.font.SysFont('Georgia', 50)
     # menu text
     title2Card = title2.render("Choose your difficulty", True, txtColor)
     button = pygame.font.SysFont('Verdana', 35) 
-    easyBut = button.render('Easy', True, txtColor) 
-    medBut = button.render('Medium', True, txtColor) 
-    hardBut = button.render('Hard', True, txtColor) 
-    pvpBut = button.render('PVP', True, txtColor) 
+    easyBut = button.render('Easy', True, btnColor) 
+    medBut = button.render('Medium', True, btnColor) 
+    hardBut = button.render('Hard', True, btnColor) 
+    pvpBut = button.render('PvP', True, btnColor) 
     quitBut = button.render('Quit', True, quitColor)
 
     while True:       
-        mouse = pygame.mouse.get_pos()   # stores the (x,y) coordinates into the variable as a tuple    
-        for event in pygame.event.get(): 
-            if event.type == pygame.QUIT: 
-                pygame.quit()  
-            #checks if a mouse is clicked 
-            if event.type == pygame.MOUSEBUTTONUP:
-                if 280 <= mouse[0] <= 420 and 220 <= mouse[1] <= 260: 
-                    playGame(44) # easy
-                elif 280 <= mouse[0] <= 420 and 320 <= mouse[1] <= 360: 
-                    playGame(50) # medium
-                elif 280 <= mouse[0] <= 420 and 420 <= mouse[1] <= 460: 
-                    playGame(58) # hard
-                elif 280 <= mouse[0] <= 420 and 520 <= mouse[1] <= 560:
-                    playGame(64) # pvp
-                elif 280 <= mouse[0] <= 420 and 620 <= mouse[1] <= 660:
-                    pygame.quit() # quit
 
-        # if mouse is hovered on a button it changes to lighter shade 
-        if 280 <= mouse[0] <= 420 and 220 <= mouse[1] <= 260:
-            pygame.draw.rect(screen,color_light,[280,220,140,40]) 
-        elif 280 <= mouse[0] <= 420 and 320 <= mouse[1] <= 360: 
-            pygame.draw.rect(screen,color_light,[280,320,140,40]) 
-        elif 280 <= mouse[0] <= 420 and 420 <= mouse[1] <= 460: 
-            pygame.draw.rect(screen,color_light,[280,420,140,40]) 
-        elif 280 <= mouse[0] <= 420 and 520 <= mouse[1] <= 560: 
-            pygame.draw.rect(screen,color_light,[280,520,140,40]) 
-        elif 280 <= mouse[0] <= 420 and 620 <= mouse[1] <= 660: 
-            pygame.draw.rect(screen,color_light,[280,620,140,40]) 
-        else:
-            pygame.draw.rect(screen,color_dark,[280,220,140,40]) 
-            pygame.draw.rect(screen,color_dark,[280,320,140,40]) 
-            pygame.draw.rect(screen,color_dark,[280,420,140,40]) 
-            pygame.draw.rect(screen,color_dark,[280,520,140,40]) 
-            pygame.draw.rect(screen,color_dark,[280,620,140,40])  
+        #stars background and format to fit
+        stars = pygame.image.load("/Users/derekroberts/Documents/GitHub/connectFour/images/stars.jpeg").convert()
+        stars = pygame.transform.scale(stars, (720, 720))
+        scroll = 0
+        tiles = math.ceil(720 / stars.get_width()) + 1
+  
+        #scrolling loop
+        while 1:
+            #speed
+            clock.tick(20)
+  
+            #appending image to back of same image
+            i = 0
+            while(i < tiles):
+                screen.blit(stars, (stars.get_width()*i + scroll, 0))
+                i += 1
+
+            #frame for scrolling
+            scroll -= 6
+  
+            #reset the frams
+            if abs(scroll) > stars.get_width():
+                scroll = 0
+
+
+            mouse = pygame.mouse.get_pos()   # stores the (x,y) coordinates into the variable as a tuple    
+            for event in pygame.event.get(): 
+                if event.type == pygame.QUIT: 
+                    pygame.quit()  
+                #checks if a mouse is clicked 
+                if event.type == pygame.MOUSEBUTTONUP:
+                    if 280 <= mouse[0] <= 420 and 220 <= mouse[1] <= 260: 
+                        playGame(44) # easy
+                    elif 280 <= mouse[0] <= 420 and 320 <= mouse[1] <= 360: 
+                        playGame(50) # medium
+                    elif 280 <= mouse[0] <= 420 and 420 <= mouse[1] <= 460: 
+                        playGame(58) # hard
+                    elif 280 <= mouse[0] <= 420 and 520 <= mouse[1] <= 560:
+                        playGame(64) # pvp
+                    elif 280 <= mouse[0] <= 420 and 620 <= mouse[1] <= 660:
+                        pygame.quit() # quit
+
+            # if mouse is hovered on a button it changes to lighter shade 
+            if 280 <= mouse[0] <= 420 and 220 <= mouse[1] <= 260:
+                pygame.draw.rect(screen,color_light,[280,220,140,40]) 
+            elif 280 <= mouse[0] <= 420 and 320 <= mouse[1] <= 360: 
+                pygame.draw.rect(screen,color_light,[280,320,140,40]) 
+            elif 280 <= mouse[0] <= 420 and 420 <= mouse[1] <= 460: 
+                pygame.draw.rect(screen,color_light,[280,420,140,40]) 
+            elif 280 <= mouse[0] <= 420 and 520 <= mouse[1] <= 560: 
+                pygame.draw.rect(screen,color_light,[280,520,140,40]) 
+            elif 280 <= mouse[0] <= 420 and 620 <= mouse[1] <= 660: 
+                pygame.draw.rect(screen,color_light,[280,620,140,40]) 
+            else:
+                pygame.draw.rect(screen,color_dark,[280,220,140,40]) 
+                pygame.draw.rect(screen,color_dark,[280,320,140,40]) 
+                pygame.draw.rect(screen,color_dark,[280,420,140,40]) 
+                pygame.draw.rect(screen,color_dark,[280,520,140,40]) 
+                pygame.draw.rect(screen,color_dark,[280,620,140,40])  
         
-        # superimposing the text onto our button 
-        screen.blit(easyBut, (305, 216))
-        screen.blit(medBut, (281, 316))
-        screen.blit(hardBut, (305, 418)) 
-        screen.blit(pvpBut, (315, 518))  
-        screen.blit(quitBut, (305, 616))
-        screen.blit(title2Card, (120, 129))  
+            # superimposing the text onto our button 
+            screen.blit(easyBut, (305, 216))
+            screen.blit(medBut, (281, 316))
+            screen.blit(hardBut, (305, 418)) 
+            screen.blit(pvpBut, (315, 518))  
+            screen.blit(quitBut, (305, 616))
+            screen.blit(title2Card, (120, 129))  
       
-        pygame.display.update() # updates the frames of the game 
+            pygame.display.update() # updates the frames of the game 
 
 
 
@@ -445,7 +474,8 @@ def main():
 
     screen = pygame.display.set_mode(res) # opens up a window 
     pygame.display.set_caption('Main Menu')
-    screen.fill((0,0,0)) # black screen
+    clock = pygame.time.Clock()
+
     color_light = (170,170,170) # light shade of the button 
     color_dark = (100,100,100) # dark shade of the button 
     txtColor = (18, 196, 255) # color of text
@@ -460,38 +490,63 @@ def main():
     info1 = info.render('Hello and welcome to my Connect Four game! All standard', True, txtColor) 
     info2 = info.render('Connect Four rules apply. To place a checker simply click', True, txtColor) 
     info3 = info.render('above the column you wish to drop it in.', True, txtColor) 
-    info4 = info.render('You can play against an AI opponent, or one of your friends!', True, txtColor)     
+    info4 = info.render('You can play against an AI opponent or one of your friends!', True, txtColor)     
 
     while True: 
-        mouse = pygame.mouse.get_pos() # stores the (x,y) coordinates into the variable as a tuple 
-        for event in pygame.event.get(): # any action from user
-            if event.type == pygame.QUIT: # quits game
-                pygame.quit()       
-            if event.type == pygame.MOUSEBUTTONUP: # checks if a mouse is clicked 
-                if 280 <= mouse[0] <= 420 and 360 <= mouse[1] <= 400: 
-                    difficultyMenu() # sends user to difficulty menu
-                if 280 <= mouse[0] <= 420 and 460<= mouse[1] <= 500: 
-                    pygame.quit() 
 
-        # if mouse is hovered on a button it changes to lighter shade 
-        if 280 <= mouse[0] <= 420 and 360 <= mouse[1] <= 400: 
-            pygame.draw.rect(screen,color_light,[280,360,140,40])
+        #stars background and format to fit
+        stars = pygame.image.load("/Users/derekroberts/Documents/GitHub/connectFour/images/stars.jpeg").convert()
+        stars = pygame.transform.scale(stars, (720, 720))
+        scroll = 0
+        tiles = math.ceil(720 / stars.get_width()) + 1
+  
+        #scrolling loop
+        while 1:
+            #speed
+            clock.tick(20)
+  
+            #appending image to back of same image
+            i = 0
+            while(i < tiles):
+                screen.blit(stars, (stars.get_width()*i + scroll, 0))
+                i += 1
+
+            #frame for scrolling
+            scroll -= 6
+  
+            #reset the frams
+            if abs(scroll) > stars.get_width():
+                scroll = 0
+
+            mouse = pygame.mouse.get_pos() # stores the (x,y) coordinates into the variable as a tuple 
+            for event in pygame.event.get(): # any action from user
+                if event.type == pygame.QUIT: # quits game
+                    pygame.quit()       
+                if event.type == pygame.MOUSEBUTTONUP: # checks if a mouse is clicked 
+                    if 280 <= mouse[0] <= 420 and 360 <= mouse[1] <= 400: 
+                        difficultyMenu() # sends user to difficulty menu
+                    if 280 <= mouse[0] <= 420 and 460<= mouse[1] <= 500: 
+                        pygame.quit() 
+
+            # if mouse is hovered on a button it changes to lighter shade 
+            if 280 <= mouse[0] <= 420 and 360 <= mouse[1] <= 400: 
+                pygame.draw.rect(screen,color_light,[280,360,140,40])
             
-        elif 280 <= mouse[0] <= 420 and 460 <= mouse[1] <= 500: 
-            pygame.draw.rect(screen,color_light,[280,460,140,40]) 
-        else:
-            pygame.draw.rect(screen,color_dark,[280,360,140,40]) 
-            pygame.draw.rect(screen,color_dark,[280,460,140,40]) 
-      
-        # superimposing the text onto our button 
-        screen.blit(startButton, (303,356))
-        screen.blit(quitButton, (310, 455)) 
-        screen.blit(info1, (20,535))  
-        screen.blit(info2, (20,560))  
-        screen.blit(info3, (20,585))  
-        screen.blit(info4, (20,630))  
-        screen.blit(titleCard, (50, 120))
-        
-        pygame.display.update() # updates the frames of the game 
-        
+            elif 280 <= mouse[0] <= 420 and 460 <= mouse[1] <= 500: 
+                pygame.draw.rect(screen,color_light,[280,460,140,40]) 
+            else:
+                pygame.draw.rect(screen,color_dark,[280,360,140,40]) 
+                pygame.draw.rect(screen,color_dark,[280,460,140,40]) 
+
+            # superimposing the text onto our button 
+            screen.blit(startButton, (303,356))
+            screen.blit(quitButton, (310, 455)) 
+            screen.blit(info1, (20,535))  
+            screen.blit(info2, (20,560))  
+            screen.blit(info3, (20,585))  
+            screen.blit(info4, (20,630))  
+            screen.blit(titleCard, (50, 120))
+                
+            pygame.display.update() # updates the frames of the game 
+
 main() # starts program
