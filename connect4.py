@@ -395,7 +395,7 @@ def difficultyMenu():
     while True:       
 
         #stars background and format to fit
-        stars = pygame.image.load("/Users/derekroberts/Documents/GitHub/connectFour/images/stars.jpeg").convert()
+        stars = pygame.image.load("/Users/derekroberts/Documents/GitHub/connect_four/images/stars.jpeg").convert()
         stars = pygame.transform.scale(stars, (720, 720))
         scroll = 0
         tiles = math.ceil(720 / stars.get_width()) + 1
